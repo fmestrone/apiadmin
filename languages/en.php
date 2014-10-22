@@ -11,7 +11,7 @@
  * @link http://www.elgg.org
 */
 
-$english = array(
+return array(
 	'admin:administer_utilities:apiadmin' => 'API Key Admin',
     'admin:statistics:apilog' => 'API Access Log',
 
@@ -57,4 +57,3 @@ $english = array(
     'apiadmin:no_result' => 'There are no API access log entries at the moment',
     'apiadmin:no_version_check' => 'The Version Check plugin is either not installed or not active. You will not be able to receive notifications of new API Admin releases.',
 );
-add_translation('en', $english);

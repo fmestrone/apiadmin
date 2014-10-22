@@ -11,14 +11,12 @@
  * @link http://www.elgg.org
 */
 
-global $CONFIG;
-
 admin_gatekeeper();
 
 $ref = get_input('ref');
 
 if ( $ref ) {
-	$keypair = create_api_user($CONFIG->site_id);
+	$keypair = create_api_user(elgg_get_config('site_id'));
 
 	if ( $keypair ) {
 

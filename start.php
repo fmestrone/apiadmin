@@ -68,18 +68,15 @@ function apiadmin_init($event, $object_type, $object = null) {
  * @param unknown_type $object
  */
 function apiadmin_delete_key($event, $object_type, $object = null) {
-	global $CONFIG;
-
 	if ( ($object) && ($object->subtype === get_subtype_id('object', 'api_key')) ) {
 		// Delete secret key
-		return remove_api_user($CONFIG->site_id, $object->public);
+		return remove_api_user(elgg_get_config('site_id'), $object->public);
 	}
 
 	return true;
 }
 
 function apiadmin_apikey_use($hook, $type, $returnvalue, $params) {
-    global $CONFIG;
     $handler = sanitise_string($_GET['handler']);
     $request = sanitise_string($_GET['request']);
     $method = sanitise_string($_GET['method']);
@@ -87,7 +84,7 @@ function apiadmin_apikey_use($hook, $type, $returnvalue, $params) {
     $remote_address = sanitise_string($_SERVER['REMOTE_ADDR']);
     $user_agent = sanitise_string($_SERVER['HTTP_USER_AGENT']);
     // `id` bigint(20) `timestamp` int(11) `api_key` varchar(40) `handler` varchar(256) `request` varchar(256) `method` varchar(256)
-    $sql = sprintf("INSERT INTO %s VALUES(NULL, %d, '%s', '%s', '%s', '%s', '%s', '%s')", $CONFIG->dbprefix . 'apiadmin_log',
+    $sql = sprintf("INSERT INTO %s VALUES(NULL, %d, '%s', '%s', '%s', '%s', '%s', '%s')", elgg_get_config('dbprefix') . 'apiadmin_log',
                 time(),
                 $api_key,
                 $handler,
@@ -123,8 +120,6 @@ function apiadmin_apikey_use($hook, $type, $returnvalue, $params) {
 function apiadmin_get_usage_log($by_key = '', $handler = '', $request = '', $method = '', $remote_address = '',
     $limit = 10, $offset = 0, $count = false, $timebefore = 0, $timeafter = 0, $object_id = 0
   ) {
-
-    global $CONFIG;
 
     $limit = (int)$limit;
     $offset = (int)$offset;
@@ -185,7 +180,8 @@ function apiadmin_get_usage_log($by_key = '', $handler = '', $request = '', $met
     if ( $count ) {
         $select = 'count(*) as count';
     }
-    $query = "SELECT $select FROM {$CONFIG->dbprefix}apiadmin_log WHERE 1 ";
+	$dbprefix = elgg_get_config('dbprefix');
+    $query = "SELECT $select FROM {$dbprefix}apiadmin_log WHERE 1 ";
     foreach ( $where as $w ) {
         $query .= " AND $w";
     }
