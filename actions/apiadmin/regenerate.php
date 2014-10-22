@@ -11,8 +11,6 @@
  * @link http://www.elgg.org
 */
 
-global $CONFIG;
-
 admin_gatekeeper();
 
 $key = (int)get_input('keyid');
@@ -20,8 +18,8 @@ $key = (int)get_input('keyid');
 $obj = get_entity($key);
 
 if ( $obj && ($obj instanceof ElggObject) && ($obj->subtype == get_subtype_id('object', 'api_key')) ) {
-	if ( remove_api_user($CONFIG->site_id, $obj->public) ) {
-		$keypair = create_api_user($CONFIG->site_id);
+	if ( remove_api_user(elgg_get_config('site_id'), $obj->public) ) {
+		$keypair = create_api_user(elgg_get_config('site_id'));
 		if ( $keypair ) {
 			$obj->public = $keypair->api_key;
 		} else {

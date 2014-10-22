@@ -27,7 +27,8 @@ $list = elgg_list_entities(array(
 
 if ( $list ) {
     $log_label = elgg_echo('apiadmin:log:all');
-    echo "<p><a href=\"{$CONFIG->url}admin/administer_utilities/apilog\">$log_label</a></p>";
+	$url = elgg_get_config('url');
+    echo "<p><a href=\"{$url}admin/administer_utilities/apilog\">$log_label</a></p>";
     echo $list;
 } else {
     $nokeys_label = elgg_echo('apiadmin:nokeys');
